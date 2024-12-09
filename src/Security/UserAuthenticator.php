@@ -49,7 +49,7 @@ class UserAuthenticator extends AbstractLoginFormAuthenticator
         }
 
         // For example:
-        return new RedirectResponse('https://127.0.0.1:8000/home');
+        return new RedirectResponse('https://127.0.0.1:8000/');
         //throw new \Exception('TODO: provide a valid redirect inside '.__FILE__);
     }
 

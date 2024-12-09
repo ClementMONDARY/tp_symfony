@@ -1,36 +1,74 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Log in!{% endblock %}
+{% block title %}Log in{% endblock %}
 
 {% block body %}
+<header class="masthead" style="background-image: url('{{ asset('clean/assets/img/about-bg.jpg') }}')">
+    <div class="container position-relative px-4 px-lg-5">
+        <div class="row gx-4 gx-lg-5 justify-content-center">
+            <div class="col-md-10 col-lg-8 col-xl-7">
+                <div class="post-heading">
+                    <h1>Man must explore, and this is exploration at its greatest</h1>
+                    <h2 class="subheading">Problems look mighty small from 150 miles up</h2>
+                    <span class="meta">
+                        Posted by
+                        <a href="#!">Start Bootstrap</a>
+                        on August 24, 2023
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+<!-- Login form-->
 <form method="post">
+    {# Message d'erreur lorsque les identifiants sont incorrects #}
     {% if error %}
-        <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
-    {% endif %}
-
-    {% if app.user %}
-        <div class="mb-3">
-            You are logged in as {{ app.user.userIdentifier }}, <a href="{{ path('app_logout') }}">Logout</a>
+        <div class="alert alert-danger">
+            {{ error.messageKey|trans(error.messageData, 'security') }}
         </div>
     {% endif %}
-
+    {# Message si l'utilisateur est déjà connecté #}
+    {% if app.user %}
+        <div class="alert alert-info">
+            You are already logged in as {{ app.user.userIdentifier }}.
+            <a href="{{ path('app_logout') }}" class="btn btn-sm btn-secondary">Logout</a>
+        </div>
+    {% endif %}
     <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
-    <label for="inputEmail">Email</label>
-    <input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control" autocomplete="email" required autofocus>
-    <label for="inputPassword">Password</label>
-    <input type="password" name="password" id="inputPassword" class="form-control" autocomplete="current-password" required>
-
+    {# Champ pour l'email ou le nom d'utilisateur #}
+    <div class="form-group">
+        <label for="inputEmail">Email</label>
+        <input type="email" 
+               value="{{ last_username }}" 
+               name="email" 
+               id="inputEmail" 
+               class="form-control" 
+               autocomplete="email" 
+               required 
+               autofocus>
+    </div>
+    {# Champ pour le mot de passe #}
+    <div class="form-group">
+        <label for="inputPassword">Password</label>
+        <input type="password" 
+               name="password" 
+               id="inputPassword" 
+               class="form-control" 
+               autocomplete="current-password" 
+               required>
+    </div>
+    {# Champ caché pour le jeton CSRF #}
     <input type="hidden" name="_csrf_token"
-           value="{{ csrf_token('authenticate') }}"
-    >
-
+           value="{{ csrf_token('authenticate') }}">
+    {# Option "Remember me" #}
     <div class="checkbox mb-3">
         <label>
             <input type="checkbox" name="_remember_me"> Remember me
         </label>
     </div>
-
-    <button class="btn btn-lg btn-primary" type="submit">
+    {# Bouton de connexion #}
+    <button class="btn btn-lg btn-primary btn-block" type="submit">
         Sign in
     </button>
 </form>
