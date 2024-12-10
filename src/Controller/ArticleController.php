@@ -26,7 +26,6 @@ class ArticleController extends AbstractController
     public function new(Request $request, UserInterface $user): Response
     {
         if (!$user) {
-            // Si l'utilisateur n'est pas connecté, afficher un message d'erreur
             return $this->json(['message' => 'You must be logged in to submit an article.'], 403);
         }
 

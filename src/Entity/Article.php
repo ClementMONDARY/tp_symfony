@@ -27,9 +27,10 @@ class Article
     #[ORM\Column(type: 'text', nullable: true)]
     private ?string $sources = null;
 
+    // Relier l'article à un auteur
     #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'articles')]
     #[ORM\JoinColumn(nullable: false)]
-    private $author;
+    private ?User $author;
 
     #[ORM\Column(type: 'datetime')]
     private \DateTimeInterface $lastModified;
@@ -85,11 +86,13 @@ class Article
         return $this;
     }
 
+    // Getter pour l'auteur
     public function getAuthor(): ?User
     {
         return $this->author;
     }
 
+    // Setter pour l'auteur
     public function setAuthor(?User $author): self
     {
         $this->author = $author;

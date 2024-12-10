@@ -32,7 +32,7 @@
 			<div class="col-md-10 col-lg-8 col-xl-7">
 				{% for article in articles %}
 					<div class="post-preview">
-						<a href="post.html">
+						<a href="{{ path('post_view', { id: article.id }) }}">
 							<h2 class="post-title">{{ article.title }}</h2>
 							<h3 class="post-subtitle">{{ article.subtitle }}</h3>
 						</a>
