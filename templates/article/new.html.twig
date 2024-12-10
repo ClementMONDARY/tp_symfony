@@ -1,34 +1,35 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Create Article{% endblock %}
+{% block title %}Create Article
+{% endblock %}
 
 {% block body %}
-<header class="masthead" style="background-image: url('{{ asset('clean/assets/img/contact-bg.jpg') }}')">
-    <div class="container position-relative px-4 px-lg-5">
-        <div class="row gx-4 gx-lg-5 justify-content-center">
-            <div class="col-md-10 col-lg-8 col-xl-7">
-                <div class="page-heading">
-                    <h1>Contact Me</h1>
-                    <span class="subheading">Have questions? I have answers.</span>
-                </div>
-            </div>
-        </div>
-    </div>
-</header>
-<!-- New article form-->
-    <h1>Create a new article</h1>
+	<header class="masthead" style="background-image: url('{{ asset('clean/assets/img/contact-bg.jpg') }}')">
+		<div class="container position-relative px-4 px-lg-5">
+			<div class="row gx-4 gx-lg-5 justify-content-center">
+				<div class="col-md-10 col-lg-8 col-xl-7">
+					<div class="page-heading">
+						<h1>Contact Me</h1>
+						<span class="subheading">Have questions? I have answers.</span>
+					</div>
+				</div>
+			</div>
+		</div>
+	</header>
+	<!-- New article form-->
+	<h1>Create a new article</h1>
 
-    {% if app.user %}
-        <form id="article-form" method="post" action="{{ path('article_new') }}">
-            {{ form_start(form) }}
-            {{ form_row(form.title) }}
-            {{ form_row(form.subtitle) }}
-            {{ form_row(form.content) }}
-            {{ form_row(form.sources) }}
-            {{ form_row(form.submit) }}
-            {{ form_end(form) }}
-        </form>
-    {% else %}
-        <p>You must be logged in to submit an article.</p>
-    {% endif %}
+	{% if app.user %}
+		<form id="article-form" method="post" action="{{ path('article_new') }}">
+			{{ form_start(form) }}
+			{{ form_row(form.title) }}
+			{{ form_row(form.subtitle) }}
+			{{ form_row(form.content) }}
+			{{ form_row(form.sources) }}
+			{{ form_row(form.submit) }}
+			{{ form_end(form) }}
+		</form>
+	{% else %}
+		<p>You must be logged in to submit an article.</p>
+	{% endif %}
 {% endblock %}

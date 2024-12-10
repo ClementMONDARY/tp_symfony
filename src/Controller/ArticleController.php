@@ -1,9 +1,5 @@
 <?php
 
-/**
- * @Route("/article/new", name="article_create")
- */
-
 namespace App\Controller;
 
 use App\Entity\Article;
@@ -14,6 +10,8 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Doctrine\ORM\EntityManagerInterface;
+use App\Repository\ArticleRepository;
+use Doctrine\ORM\QueryBuilder;
 
 class ArticleController extends AbstractController
 {
@@ -52,6 +50,39 @@ class ArticleController extends AbstractController
 
         return $this->render('article/new.html.twig', [
             'form' => $form->createView(),
+        ]);
+    }
+
+    #[Route('/', name: 'articles_home')]
+    public function index(ArticleRepository $articleRepository, Request $request): Response
+    {
+        // Nombre d'articles par page
+        $limit = 5;
+
+        // Page actuelle, par défaut 1
+        $page = $request->query->getInt('page', 1);
+
+        // Calcul du début de la page (pour la pagination)
+        $offset = ($page - 1) * $limit;
+
+        // Récupérer les articles de la page actuelle
+        $articles = $articleRepository->createQueryBuilder('a')
+            ->orderBy('a.lastModified', 'DESC')
+            ->setFirstResult($offset)
+            ->setMaxResults($limit)
+            ->getQuery()
+            ->getResult();
+
+        // Calculer le nombre total d'articles
+        $totalArticles = $articleRepository->count([]);
+
+        // Calcul du nombre total de pages
+        $totalPages = ceil($totalArticles / $limit);
+
+        return $this->render('post/index.html.twig', [
+            'articles' => $articles,
+            'totalPages' => $totalPages,
+            'currentPage' => $page,
         ]);
     }
 }
