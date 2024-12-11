@@ -11,7 +11,6 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Repository\ArticleRepository;
-use Doctrine\ORM\QueryBuilder;
 
 class ArticleController extends AbstractController
 {

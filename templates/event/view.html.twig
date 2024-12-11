@@ -1,0 +1,77 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    {{ event.name }}
+{% endblock %}
+
+{% block body %}
+
+    <header class="masthead" style="background-image: url('{{ asset('clean/assets/img/post-bg.jpg') }}')">
+        <div class="container position-relative px-4 px-lg-5">
+            <div class="row gx-4 gx-lg-5 justify-content-center">
+                <div class="col-md-10 col-lg-8 col-xl-7">
+                    <div class="post-heading">
+                        <h1>{{ event.name }}</h1>
+                        <span class="meta">
+                            Created by
+                            <a href="#!">{{ event.createdBy.username }}</a>
+                            |
+                            <span class="badge bg-primary">{{ event.type.label }}</span>
+                            <span class="badge bg-secondary">{{ event.status.label }}</span>
+                            |
+                            Participants: {% if event.participants|length > 100 %}100+{% else %}{{ event.participants|length }}{% endif %}
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    {% for message in app.flashes('success') %}
+        <div class="container px-4 px-lg-5">
+            <div class="row gx-4 gx-lg-5 justify-content-center">
+                <div class="col-md-10 col-lg-8 col-xl-7">
+                    <div class="alert alert-success">
+                        {{ message }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+    
+    <article class="mb-4">
+        <div class="container px-4 px-lg-5">
+            <div class="row gx-4 gx-lg-5 justify-content-center">
+                <div class="col-md-10 col-lg-8 col-xl-7">
+                    <div class="mb-4">
+                        <h4>When?</h4>
+                        <p>From: {{ event.startDate|date('F d, Y H:i') }}<br>
+                           To: {{ event.endDate|date('F d, Y H:i') }}</p>
+                        
+                        <h4>Where?</h4>
+                        <p>{{ event.location }}</p>
+
+                        <h4>Description</h4>
+                        <p>{{ event.description }}</p>
+                    </div>
+
+                    <div class="text-center">
+                        {% if app.user %}
+                            {% if app.user in event.participants %}
+                                <form action="{{ path('event_leave', {id: event.id}) }}" method="post" style="display: inline;">
+                                    <button type="submit" class="btn btn-danger">Leave Event</button>
+                                </form>
+                            {% else %}
+                                <form action="{{ path('event_join', {id: event.id}) }}" method="post" style="display: inline;">
+                                    <button type="submit" class="btn btn-success">Join Event</button>
+                                </form>
+                            {% endif %}
+                        {% else %}
+                            <a href="{{ path('app_login') }}" class="btn btn-primary">Login to Participate</a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </article>
+{% endblock %}

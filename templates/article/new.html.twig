@@ -18,7 +18,6 @@
 	</header>
 	<!-- New article form-->
 	<h1>Create a new article</h1>
-
 	{% if app.user %}
 		<form id="article-form" method="post" action="{{ path('article_new') }}">
 			{{ form_start(form) }}

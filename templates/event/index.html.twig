@@ -1,0 +1,71 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Events{% endblock %}
+
+{% block body %}
+    <header class="masthead" style="background-image: url('{{ asset('clean/assets/img/home-bg.jpg') }}')">
+        <div class="container position-relative px-4 px-lg-5">
+            <div class="row gx-4 gx-lg-5 justify-content-center">
+                <div class="col-md-10 col-lg-8 col-xl-7">
+                    <div class="site-heading">
+                        <h1>Events</h1>
+                        <span class="subheading">Upcoming events</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="container px-4 px-lg-5">
+        <div class="row gx-4 gx-lg-5 justify-content-center">
+            <div class="col-md-10 col-lg-8 col-xl-7">
+                {% for event in events %}
+                    <div class="post-preview">
+                        <a href="{{ path('event_view', { id: event.id }) }}">
+                            <h2 class="post-title">{{ event.name }}</h2>
+                            <div class="post-subtitle" style="display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;">
+                                {{ event.description }}
+                            </div>
+                        </a>
+                        <p class="post-meta">
+                            Created by {{ event.createdBy.username }} | 
+                            From: {{ event.startDate|date('Y-m-d H:i') }} | 
+                            To: {{ event.endDate|date('Y-m-d H:i') }} | 
+                            Participants: {% if event.participants|length > 100 %}100+{% else %}{{ event.participants|length }}{% endif %}
+                            <span class="badge bg-primary">{{ event.type.label }}</span>
+                            <span class="badge bg-secondary">{{ event.status.label }}</span>
+                        </p>
+                        <div class="mt-2">
+                            {% if app.user %}
+                                {% if app.user in event.participants %}
+                                    <form action="{{ path('event_leave', {id: event.id}) }}" method="post" style="display: inline;">
+                                        <button type="submit" class="btn btn-sm btn-danger">Leave Event</button>
+                                    </form>
+                                {% else %}
+                                    <form action="{{ path('event_join', {id: event.id}) }}" method="post" style="display: inline;">
+                                        <button type="submit" class="btn btn-sm btn-success">Join Event</button>
+                                    </form>
+                                {% endif %}
+                            {% else %}
+                                <a href="{{ path('app_login') }}" class="btn btn-sm btn-primary">Login to Participate</a>
+                            {% endif %}
+                        </div>
+                    </div>
+                    <hr class="my-4"/>
+                {% else %}
+                    <p>No upcoming events found.</p>
+                {% endfor %}
+
+                <div class="d-flex justify-content-between mb-4">
+                    {% if currentPage > 1 %}
+                        <a href="{{ path('event_home', { page: currentPage - 1 }) }}" class="btn btn-primary">&larr; Previous</a>
+                    {% endif %}
+
+                    {% if currentPage < totalPages %}
+                        <a href="{{ path('event_home', { page: currentPage + 1 }) }}" class="btn btn-primary">Next &rarr;</a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

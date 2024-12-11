@@ -33,8 +33,8 @@ class Event
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $endDate = null;
 
-    #[ORM\Column(type: Types::SIMPLE_ARRAY, enumType: EventType::class)]
-    private array $type = [];
+    #[ORM\Column(enumType: EventType::class)]
+    private ?EventType $type = null;
 
     #[ORM\ManyToOne(inversedBy: 'events')]
     #[ORM\JoinColumn(nullable: false)]
@@ -123,12 +123,12 @@ class Event
     /**
      * @return EventType[]
      */
-    public function getType(): array
+    public function getType(): ?EventType
     {
         return $this->type;
     }
 
-    public function setType(array $type): static
+    public function setType(EventType $type): static
     {
         $this->type = $type;
 
