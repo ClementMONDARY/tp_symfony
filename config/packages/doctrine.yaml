@@ -32,6 +32,9 @@ when@test:
         dbal:
             # "TEST_TOKEN" is typically set by ParaTest
             dbname_suffix: '_test%env(default::TEST_TOKEN)%'
+            types:
+                event_type: App\DBAL\Types\EventTypeType
+                event_status: App\DBAL\Types\EventStatusType
 
 when@prod:
     doctrine:
