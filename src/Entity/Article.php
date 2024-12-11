@@ -30,7 +30,7 @@ class Article
     // Relier l'article à un auteur
     #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'articles')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?User $author;
+    private ?User $author = null;
 
     #[ORM\Column(type: 'datetime')]
     private \DateTimeInterface $lastModified;
