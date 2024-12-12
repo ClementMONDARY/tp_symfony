@@ -136,4 +136,33 @@ class EventController extends AbstractController
 
         return $this->redirectToRoute('event_view', ['id' => $id]);
     }
+
+    #[Route('/event/edit/{id}', name: 'event_edit')]
+    public function edit(Request $request, Event $event): Response
+    {
+        $form = $this->createForm(NewEventType::class, $event, ['is_edit' => true]);
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $this->entityManager->flush();
+            $this->addFlash('success', 'Event updated successfully.');
+
+            return $this->redirectToRoute('account');
+        }
+
+        return $this->render('account/edit_event.html.twig', [
+            'form' => $form->createView(),
+        ]);
+    }
+
+    #[Route('/event/delete/{id}', name: 'event_delete')]
+    public function delete(Event $event): Response
+    {
+        $this->entityManager->remove($event);
+        $this->entityManager->flush();
+        $this->addFlash('success', 'Event deleted successfully.');
+
+        return $this->redirectToRoute('account');
+    }
 }

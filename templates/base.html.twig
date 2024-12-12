@@ -24,42 +24,42 @@
 		<nav class="navbar navbar-expand-lg navbar-light" id="mainNav">
 			<div class="container px-4 px-lg-5">
 				<a class="navbar-brand" href="{{ path('articles_home') }}">TP Symfony</a>
-				<a class="navbar-brand py-3" href="#">
-					Logged in as
-					{{ app.user.Username }}
-				</a>
 				<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
 					Menu
 					<i class="fas fa-bars"></i>
 				</button>
 				<div class="collapse navbar-collapse" id="navbarResponsive">
-					<ul class="navbar-nav ms-auto py-4 py-lg-0">
+					<ul
+						class="navbar-nav ms-auto py-4 py-lg-0">
 						{# Replace the existing navigation items with: #}
 						<li class="nav-item">
-						    {% if app.request.attributes.get('_route') == 'event_home' %}
-						        <a class="nav-link px-lg-3 py-3 py-lg-4" href="{{ path('event_new') }}">Create Event</a>
-						    {% else %}
-						        <a class="nav-link px-lg-3 py-3 py-lg-4" href="{{ path('event_home') }}">Events</a>
-						    {% endif %}
+							{% if app.request.attributes.get('_route') == 'event_home' %}
+								<a class="nav-link px-lg-3 py-3 py-lg-4" href="{{ path('event_new') }}">Create Event</a>
+							{% else %}
+								<a class="nav-link px-lg-3 py-3 py-lg-4" href="{{ path('event_home') }}">Events</a>
+							{% endif %}
 						</li>
 						<li class="nav-item">
-						    {% if app.request.attributes.get('_route') == 'articles_home' %}
-						        <a class="nav-link px-lg-3 py-3 py-lg-4" href="{{ path('article_new') }}">Submit Article</a>
-						    {% else %}
-						        <a class="nav-link px-lg-3 py-3 py-lg-4" href="{{ path('articles_home') }}">Articles</a>
-						    {% endif %}
+							{% if app.request.attributes.get('_route') == 'articles_home' %}
+								<a class="nav-link px-lg-3 py-3 py-lg-4" href="{{ path('article_new') }}">Submit Article</a>
+							{% else %}
+								<a class="nav-link px-lg-3 py-3 py-lg-4" href="{{ path('articles_home') }}">Articles</a>
+							{% endif %}
 						</li>
 						{% if app.user %}
-						    <li class="nav-item">
-						        <a class="nav-link px-lg-3 py-3 py-lg-4" href="{{ path('app_logout') }}">Logout</a>
-						    </li>
+							<li class="nav-item">
+								<a class="nav-link px-lg-3 py-3 py-lg-4" href="{{ path('account') }}">{{ app.user.Username }}</a>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link px-lg-3 py-3 py-lg-4" href="{{ path('app_logout') }}">Logout</a>
+							</li>
 						{% else %}
-						    <li class="nav-item">
-						        <a class="nav-link px-lg-3 py-3 py-lg-4" href="{{ path('app_register') }}">Register</a>
-						    </li>
-						    <li class="nav-item">
-						        <a class="nav-link px-lg-3 py-3 py-lg-4" href="{{ path('app_login') }}">Login</a>
-						    </li>
+							<li class="nav-item">
+								<a class="nav-link px-lg-3 py-3 py-lg-4" href="{{ path('app_register') }}">Register</a>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link px-lg-3 py-3 py-lg-4" href="{{ path('app_login') }}">Login</a>
+							</li>
 						{% endif %}
 					</ul>
 				</div>
@@ -100,16 +100,16 @@
 							</li>
 						</ul>
 						<ul class="list-inline text-center">
-		                    <li class="list-inline-item">
-		                        <a href="{{ path('page_about') }}">About</a>
-		                    </li>
-		                    <li class="list-inline-item">
-		                        <span class="fa fa-circle"></span>
-		                    </li>
-		                    <li class="list-inline-item">
-		                        <a href="{{ path('page_contact') }}">Contact</a>
-		                    </li>
-		                </ul>
+							<li class="list-inline-item">
+								<a href="{{ path('page_about') }}">About</a>
+							</li>
+							<li class="list-inline-item">
+								<span class="fa fa-circle"></span>
+							</li>
+							<li class="list-inline-item">
+								<a href="{{ path('page_contact') }}">Contact</a>
+							</li>
+						</ul>
 						<div class="small text-center text-muted fst-italic">Copyright &copy; TP Symfony B2 Prog 2024</div>
 					</div>
 				</div>

@@ -51,6 +51,35 @@ class ArticleController extends AbstractController
         ]);
     }
 
+    #[Route('/article/edit/{id}', name: 'article_edit')]
+    public function edit(Request $request, Article $article): Response
+    {
+        $form = $this->createForm(ArticleType::class, $article, ['is_edit' => true]);
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $this->entityManager->flush();
+            $this->addFlash('success', 'Article updated successfully.');
+
+            return $this->redirectToRoute('account');
+        }
+
+        return $this->render('account/edit_article.html.twig', [
+            'form' => $form->createView(),
+        ]);
+    }
+
+    #[Route('/article/delete/{id}', name: 'article_delete')]
+    public function delete(Article $article): Response
+    {
+        $this->entityManager->remove($article);
+        $this->entityManager->flush();
+        $this->addFlash('success', 'Article deleted successfully.');
+
+        return $this->redirectToRoute('account');
+    }
+
     #[Route('/', name: 'articles_home')]
     public function index(ArticleRepository $articleRepository, Request $request): Response
     {

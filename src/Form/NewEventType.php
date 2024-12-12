@@ -47,18 +47,21 @@ class NewEventType extends AbstractType
                 'choices' => EventStatus::cases(),
                 'choice_label' => fn($choice) => $choice->getLabel(),
                 'data' => EventStatus::DRAFT,  // Valeur par défaut
-            ])
-            ->add('save', SubmitType::class, [
+            ]);
+
+        if (!$options['is_edit']) {
+            $builder->add('save', SubmitType::class, [
                 'label' => 'Create Event',
                 'attr' => ['class' => 'btn btn-primary'],
-            ])
-        ;
+            ]);
+        }
     }
 
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
             'data_class' => Event::class,
+            'is_edit' => false,
         ]);
     }
 }

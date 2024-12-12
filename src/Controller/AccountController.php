@@ -6,7 +6,9 @@ use App\Entity\Event;
 use App\Entity\Article;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\Routing\Annotation\Route;
 
 class AccountController extends AbstractController
@@ -49,5 +51,63 @@ class AccountController extends AbstractController
             'participatingEvents' => $participatingEvents,
             'articles' => $articles,
         ]);
+    }
+
+    #[Route('/account/event/edit/{id}', name: 'event_edit')]
+    public function editEvent(Request $request, Event $event): Response
+    {
+        // Logic to edit the event
+        $form = $this->createForm(Event::class, $event);
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $this->entityManager->flush();
+            $this->addFlash('success', 'Event updated successfully.');
+
+            return $this->redirectToRoute('account');
+        }
+
+        return $this->render('account/edit_event.html.twig', [
+            'form' => $form->createView(),
+        ]);
+    }
+
+    #[Route('/account/event/delete/{id}', name: 'event_delete')]
+    public function deleteEvent(Event $event): RedirectResponse
+    {
+        $this->entityManager->remove($event);
+        $this->entityManager->flush();
+
+        return $this->redirectToRoute('account');
+    }
+
+    #[Route('/account/article/edit/{id}', name: 'article_edit')]
+    public function editArticle(Request $request, Article $article): Response
+    {
+        // Logic to edit the article
+        $form = $this->createForm(Article::class, $article);
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $this->entityManager->flush();
+            $this->addFlash('success', 'Article updated successfully.');
+
+            return $this->redirectToRoute('account');
+        }
+
+        return $this->render('account/edit_article.html.twig', [
+            'form' => $form->createView(),
+        ]);
+    }
+
+    #[Route('/account/article/delete/{id}', name: 'article_delete')]
+    public function deleteArticle(Article $article): RedirectResponse
+    {
+        $this->entityManager->remove($article);
+        $this->entityManager->flush();
+
+        return $this->redirectToRoute('account');
     }
 }

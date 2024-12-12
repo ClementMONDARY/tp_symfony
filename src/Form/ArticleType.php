@@ -28,16 +28,20 @@ class ArticleType extends AbstractType
             ->add('sources', TextareaType::class, [
                 'label' => 'Sources (optional)',
                 'required' => false,
-            ])
-            ->add('submit', SubmitType::class, [
+            ]);
+
+        if (!$options['is_edit']) {
+            $builder->add('submit', SubmitType::class, [
                 'label' => 'Create Article',
             ]);
+        }
     }
 
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
             'data_class' => Article::class,
+            'is_edit' => false,
         ]);
     }
 }
